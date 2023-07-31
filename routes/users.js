@@ -5,7 +5,7 @@ require("../models/connection");
 const User = require("../models/users");
 const { checkBody } = require("../modules/checkBody");
 
-// ROUTE ADD USER
+// ********** ROUTE ADD USER **********
 router.post("/", (req, res) => {
   //AJOUT DU MODULE CHECKBODY
   if (
@@ -46,6 +46,19 @@ router.post("/", (req, res) => {
       });
     } else {
       res.json({ result: false });
+    }
+  });
+});
+
+// ---------- //
+
+// ********** ROUTE EN GET **********
+router.get("/", (req, res) => {
+  User.find().then((allUsers) => {
+    if (allUsers) {
+      res.json({ result: true, data: allUsers });
+    } else {
+      res.json({ result: false, error: "Users not found" });
     }
   });
 });
