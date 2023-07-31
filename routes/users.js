@@ -3,13 +3,12 @@ var router = express.Router();
 
 require("../models/connection");
 const User = require("../models/users");
+const Department = require("../models/departments");
+const InternalCompany = require("../models/internalCompanies");
+const Job = require("../models/jobs");
 
 // ROUTE ADD USER
 router.post("/", (req, res) => {
-  //EXEMPLE LOCAPIC
-  //const { nickname, name, latitude, longitude } = req.body;
-  //const newPlace = new Place({ nickname, name, latitude, longitude });
-
   //DEFINITION DE L'OBJET RECU PAR LE FRONT
   const { firstname, lastname, password, email, department, job, role } =
     req.body;

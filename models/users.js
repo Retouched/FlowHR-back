@@ -5,14 +5,15 @@ const userSchema = mongoose.Schema({
   firstname: String,
   email: String,
   token: String,
-  department: [{ type: mongoose.Schema.Types.ObjectId, ref: "departments" }],
+  department: { type: mongoose.Schema.Types.ObjectId, ref: "departments" },
   connected: Boolean,
-  job: [{ type: mongoose.Schema.Types.ObjectId, ref: "jobs" }],
+  job: { type: mongoose.Schema.Types.ObjectId, ref: "jobs" },
   role: String,
   password: String,
-  internalCompany: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "internalCompanies" },
-  ],
+  internalCompany: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "internalCompanies",
+  },
 });
 
 const User = mongoose.model("users", userSchema);
