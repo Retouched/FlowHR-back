@@ -49,7 +49,6 @@ router.post("/", (req, res) => {
     }
   });
 });
-
 // ---------- //
 
 // ********** ROUTE EN GET **********
@@ -59,6 +58,24 @@ router.get("/", (req, res) => {
       res.json({ result: true, data: allUsers });
     } else {
       res.json({ result: false, error: "Users not found" });
+    }
+  });
+});
+// ---------- //
+
+// ********** ROUTE SIGNIN **********
+router.post("/signin", (req, res) => {
+  // VERIFICATION DU BODY
+  if (!checkBody(req.body, ["lastname", "email", "password"])) {
+    res.json({ result: false, error: "Missing or empty fields" });
+    return;
+  }
+  //INTERROGATION DE LA BDD
+  User.findOne({ email: req.body.email }).then((data) => {
+    if (data.email === req.body.email && data.password === req.body.password) {
+      res.json({ result: true });
+    } else {
+      res.json({ result: false, error: "User not found or wrong password" });
     }
   });
 });
