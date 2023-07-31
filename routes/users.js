@@ -3,9 +3,6 @@ var router = express.Router();
 
 require("../models/connection");
 const User = require("../models/users");
-const Department = require("../models/departments");
-const InternalCompany = require("../models/internalCompanies");
-const Job = require("../models/jobs");
 
 // ROUTE ADD USER
 router.post("/", (req, res) => {
