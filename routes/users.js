@@ -1,8 +1,11 @@
 var express = require("express");
 var router = express.Router();
 
-require("../models/connection");
 const User = require("../models/users");
+const Department = require("../models/departments");
+const Job = require("../models/jobs");
+const InternalCompany = require("../models/internalCompanies");
+
 const { checkBody } = require("../modules/checkBody");
 
 // ********** ROUTE ADD USER **********
@@ -53,13 +56,17 @@ router.post("/", (req, res) => {
 
 // ********** ROUTE EN GET **********
 router.get("/", (req, res) => {
-  User.find().then((allUsers) => {
-    if (allUsers) {
-      res.json({ result: true, data: allUsers });
-    } else {
-      res.json({ result: false, error: "Users not found" });
-    }
-  });
+  User.find()
+    .populate("department")
+    .populate("job")
+    .populate("internalCompany")
+    .then((allUsers) => {
+      if (allUsers) {
+        res.json({ result: true, data: allUsers });
+      } else {
+        res.json({ result: false, error: "Users not found" });
+      }
+    });
 });
 // ---------- //
 
