@@ -4,9 +4,12 @@ var router = express.Router();
 require("../models/connection");
 const User = require("../models/users");
 const { checkBody } = require("../modules/checkBody");
+const uid2 = require("uid2");
+const bcrypt = require("bcrypt");
 
-// ********** ROUTE ADD USER **********
+// ********** AJOUTE UN USER **********
 router.post("/", (req, res) => {
+  const hash = bcrypt.hashSync(req.body.password, 10);
   //AJOUT DU MODULE CHECKBODY
   if (
     !checkBody(req.body, [
@@ -24,12 +27,12 @@ router.post("/", (req, res) => {
   }
 
   //DEFINITION DE L'OBJET RECU PAR LE FRONT
-  const { firstname, lastname, password, email, department, job, role } =
-    req.body;
+  const { firstname, lastname, email, department, job, role } = req.body;
   const newUser = new User({
     firstname,
     lastname,
-    password,
+    password: hash,
+    token: uid2(32),
     email,
     department,
     job,
@@ -51,7 +54,7 @@ router.post("/", (req, res) => {
 });
 // ---------- //
 
-// ********** ROUTE EN GET **********
+// ********** RECUPERE TOUS LES USERS **********
 router.get("/", (req, res) => {
   User.find().then((allUsers) => {
     if (allUsers) {
@@ -72,10 +75,14 @@ router.post("/signin", (req, res) => {
   }
   //INTERROGATION DE LA BDD
   User.findOne({ email: req.body.email }).then((data) => {
+    console.log(data);
     if (data.email === req.body.email && data.password === req.body.password) {
-      res.json({ result: true });
+      res.json({ result: true, role: data.role });
     } else {
-      res.json({ result: false, error: "User not found or wrong password" });
+      res.json({
+        result: false,
+        error: "User not found or wrong password",
+      });
     }
   });
 });
