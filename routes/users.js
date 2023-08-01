@@ -83,9 +83,11 @@ router.post("/signin", (req, res) => {
   }
   //INTERROGATION DE LA BDD
   User.findOne({ email: req.body.email }).then((data) => {
-    console.log(data);
-    if (data.email === req.body.email && data.password === req.body.password) {
-      res.json({ result: true, role: data.role });
+    console.log("body:", req.body.password);
+    console.log("data:", data.password);
+
+    if (data && bcrypt.compareSync(req.body.password, data.password)) {
+      res.json({ result: true, role: data.role, token: data.token });
     } else {
       res.json({
         result: false,
