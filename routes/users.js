@@ -72,6 +72,7 @@ router.get("/", (req, res) => {
 
 // ********** ROUTE SIGNIN **********
 router.post("/signin", (req, res) => {
+  console.log("req.body: ", req.body);
   // VERIFICATION DU BODY
   if (!checkBody(req.body, ["lastname", "email", "password"])) {
     res.json({ result: false, error: "Missing or empty fields" });
