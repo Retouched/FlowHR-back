@@ -48,7 +48,17 @@ router.post("/", (req, res) => {
   User.findOne({ email: req.body.email }).then((data) => {
     if (data === null) {
       newUser.save().then(() => {
-        res.json({ result: true });
+        User.find()
+          .populate("department")
+          .populate("job")
+          .populate("internalCompany")
+          .then((allUsers) => {
+            if (allUsers) {
+              res.json({ result: true, data: allUsers });
+            } else {
+              res.json({ result: false, error: "Users not found" });
+            }
+          });
       });
     } else {
       res.json({ result: false });
