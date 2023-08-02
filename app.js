@@ -9,6 +9,9 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+const departmentsRouter = require("./routes/departments");
+const jobsRouter = require("./routes/jobs");
+const rolesRouter = require("./routes/roles");
 
 var app = express();
 const cors = require("cors");
@@ -22,5 +25,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/departments", departmentsRouter);
+app.use("/jobs", jobsRouter);
+app.use("/roles", rolesRouter);
 
 module.exports = app;
