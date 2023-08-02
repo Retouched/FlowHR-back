@@ -52,9 +52,10 @@ router.post("/", (req, res) => {
           .populate("department")
           .populate("job")
           .populate("internalCompany")
+          .populate("role")
           .then((allUsers) => {
             if (allUsers) {
-              res.json({ result: true, data: allUsers });
+              res.json({ result: true, allUsers: allUsers });
             } else {
               res.json({ result: false, error: "Users not found" });
             }
@@ -73,9 +74,10 @@ router.get("/", (req, res) => {
     .populate("department")
     .populate("job")
     .populate("internalCompany")
+    .populate("role")
     .then((allUsers) => {
       if (allUsers) {
-        res.json({ result: true, data: allUsers });
+        res.json({ result: true, allUsers: allUsers });
       } else {
         res.json({ result: false, error: "Users not found" });
       }
