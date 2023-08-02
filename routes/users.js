@@ -42,8 +42,6 @@ router.post("/", (req, res) => {
     role,
   });
 
-  console.log("newUser", newUser);
-
   //CONDITION DE CREATION SUR L'ADRESSE MAIL : si elle existe déjà result : false
   User.findOne({ email: req.body.email }).then((data) => {
     if (data === null) {
@@ -87,7 +85,6 @@ router.get("/", (req, res) => {
 
 // ********** SUPRESSION D'UN SALARIE **********
 router.delete("/", (req, res) => {
-  console.log("req.body :", req.body);
   User.deleteOne({ email: req.body.email }).then((deletedUser) => {
     if (deletedUser.deletedCount > 0) {
       User.find()
@@ -108,26 +105,24 @@ router.delete("/", (req, res) => {
 
 // ********** ROUTE SIGNIN **********
 router.post("/signin", (req, res) => {
-  console.log("req.body: ", req.body);
   // VERIFICATION DU BODY
   if (!checkBody(req.body, ["lastname", "email", "password"])) {
     res.json({ result: false, error: "Missing or empty fields" });
     return;
   }
   //INTERROGATION DE LA BDD
-  User.findOne({ email: req.body.email }).then((data) => {
-    console.log("body:", req.body.password);
-    console.log("data:", data.password);
-
-    if (data && bcrypt.compareSync(req.body.password, data.password)) {
-      res.json({ result: true, role: data.role, token: data.token });
-    } else {
-      res.json({
-        result: false,
-        error: "User not found or wrong password",
-      });
-    }
-  });
+  User.findOne({ email: req.body.email })
+    .populate("role")
+    .then((data) => {
+      if (data && bcrypt.compareSync(req.body.password, data.password)) {
+        res.json({ result: true, role: data.role, token: data.token });
+      } else {
+        res.json({
+          result: false,
+          error: "User not found or wrong password",
+        });
+      }
+    });
 });
 
 module.exports = router;
