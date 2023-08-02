@@ -85,6 +85,27 @@ router.get("/", (req, res) => {
 });
 // ---------- //
 
+// ********** SUPRESSION D'UN SALARIE **********
+router.delete("/", (req, res) => {
+  console.log("req.body :", req.body);
+  User.deleteOne({ email: req.body.email }).then((deletedUser) => {
+    if (deletedUser.deletedCount > 0) {
+      User.find()
+        .populate("department")
+        .populate("job")
+        .populate("internalCompany")
+        .populate("role")
+        .then((allUsers) => {
+          if (allUsers) {
+            res.json({ result: true, allUsers: allUsers });
+          } else {
+            res.json({ result: false, error: "Users not found" });
+          }
+        });
+    }
+  });
+});
+
 // ********** ROUTE SIGNIN **********
 router.post("/signin", (req, res) => {
   console.log("req.body: ", req.body);
