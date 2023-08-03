@@ -14,6 +14,7 @@ const jobsRouter = require("./routes/jobs");
 const rolesRouter = require("./routes/roles");
 const hireRequestsRouter = require("./routes/hireRequests");
 const goalRequestsRouter = require("./routes/goalRequests");
+const classificationsRouter = require("./routes/classifications");
 
 var app = express();
 const cors = require("cors");
@@ -32,5 +33,6 @@ app.use("/jobs", jobsRouter);
 app.use("/roles", rolesRouter);
 app.use("/hireRequests", hireRequestsRouter);
 app.use("/goalRequests", goalRequestsRouter);
+app.use("/classifications", classificationsRouter);
 
 module.exports = app;
