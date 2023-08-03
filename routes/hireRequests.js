@@ -10,7 +10,6 @@ const Classification = require("../models/classifications");
 const ContractReason = require("../models/contractReasons");
 const ContractType = require("../models/contractTypes");
 const GoalRequest = require("../models/goalRequests");
-const HireRequest = require("../models/hireRequests");
 
 const { checkBody } = require("../modules/checkBody");
 
@@ -112,13 +111,13 @@ router.post("/", (req, res) => {
     moveAssist,
     user_id,
   });
-});
 
-// SAUVEGARDE DE LA DEMANDE
-newHireRequest.save().then((data) => {
-  if (data) {
-    res.json({ result: true, data: data });
-  }
+  // SAUVEGARDE DE LA DEMANDE
+  newHireRequest.save().then((data) => {
+    if (data) {
+      res.json({ result: true, data: data });
+    }
+  });
 });
 
 module.exports = router;

@@ -13,6 +13,7 @@ const departmentsRouter = require("./routes/departments");
 const jobsRouter = require("./routes/jobs");
 const rolesRouter = require("./routes/roles");
 const hireRequestsRouter = require("./routes/hireRequests");
+const goalRequestsRouter = require("./routes/goalRequests");
 
 var app = express();
 const cors = require("cors");
@@ -30,5 +31,6 @@ app.use("/departments", departmentsRouter);
 app.use("/jobs", jobsRouter);
 app.use("/roles", rolesRouter);
 app.use("/hireRequests", hireRequestsRouter);
+app.use("/goalRequests", goalRequestsRouter);
 
 module.exports = app;
