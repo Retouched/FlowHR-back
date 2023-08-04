@@ -10,7 +10,6 @@ const userSchema = mongoose.Schema({
   job: { type: mongoose.Schema.Types.ObjectId, ref: "jobs" },
   role: { type: mongoose.Schema.Types.ObjectId, ref: "roles" },
   password: String,
-  token: String,
   internalCompany: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "internalCompanies",
