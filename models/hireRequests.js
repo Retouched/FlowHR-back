@@ -41,6 +41,7 @@ const hireRequestSchema = mongoose.Schema({
   annualVariableWage: Boolean,
   annualVariableWageAmount: Number,
   moveAssist: Boolean,
+  annexDemand: String,
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 });
 

@@ -72,6 +72,7 @@ router.post("/", (req, res) => {
     annualVariableWage,
     annualVariableWageAmount,
     moveAssist,
+    annexDemand,
     user_id,
   } = req.body;
   const newHireRequest = new HireRequest({
@@ -109,12 +110,14 @@ router.post("/", (req, res) => {
     annualVariableWage,
     annualVariableWageAmount,
     moveAssist,
+    annexDemand,
     user_id,
   });
 
   // SAUVEGARDE DE LA DEMANDE
   newHireRequest.save().then((data) => {
     if (data) {
+      console.log(data);
       res.json({ result: true, data: data });
     }
   });
