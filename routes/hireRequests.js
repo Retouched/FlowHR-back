@@ -49,6 +49,10 @@ router.post("/", async (req, res) => {
     newNumRequest = 1;
   }
 
+  const userID = await User.findOne({ token: req.body.user }).then((data) => {
+    return data._id;
+  });
+
   // DEFINITION DE L'OBJET RECU PAR LE FRONT
   const {
     goalRequest,
@@ -84,7 +88,6 @@ router.post("/", async (req, res) => {
     annualVariableWageAmount,
     moveAssist,
     annexDemand,
-    user,
   } = req.body;
   const newHireRequest = new HireRequest({
     numRequest: newNumRequest,
@@ -122,7 +125,7 @@ router.post("/", async (req, res) => {
     annualVariableWageAmount,
     moveAssist,
     annexDemand,
-    user,
+    user: userID,
   });
 
   // // SAUVEGARDE DE LA DEMANDE
