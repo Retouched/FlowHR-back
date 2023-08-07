@@ -22,6 +22,7 @@ router.get(
       .populate("job")
       .populate("internalCompany")
       .populate("role")
+      .populate("user")
       .then((allHireRequests) => {
         if (allHireRequests) {
           res.json({ result: true, allHireRequests: allHireRequests });
@@ -72,7 +73,7 @@ router.post("/", (req, res) => {
     annualVariableWage,
     annualVariableWageAmount,
     moveAssist,
-    user_id,
+    user,
   } = req.body;
   const newHireRequest = new HireRequest({
     numRequest,
@@ -109,7 +110,7 @@ router.post("/", (req, res) => {
     annualVariableWage,
     annualVariableWageAmount,
     moveAssist,
-    user_id,
+    user,
   });
 
   // SAUVEGARDE DE LA DEMANDE
