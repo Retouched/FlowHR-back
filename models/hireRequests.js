@@ -42,7 +42,7 @@ const hireRequestSchema = mongoose.Schema({
   annualVariableWageAmount: Number,
   moveAssist: Boolean,
   annexDemand: String,
-  user_id: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
 });
 
 const HireRequest = mongoose.model("hireRequests", hireRequestSchema);
