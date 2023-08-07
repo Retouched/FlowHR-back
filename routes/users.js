@@ -113,9 +113,17 @@ router.post("/signin", (req, res) => {
   //INTERROGATION DE LA BDD
   User.findOne({ email: req.body.email })
     .populate("role")
+    .populate("job")
     .then((data) => {
       if (data && bcrypt.compareSync(req.body.password, data.password)) {
-        res.json({ result: true, role: data.role, token: data.token });
+        res.json({
+          result: true,
+          role: data.role,
+          token: data.token,
+          job: data.job,
+          firstname: data.firstname,
+          lastname: data.lastname,
+        });
       } else {
         res.json({
           result: false,
