@@ -14,24 +14,23 @@ const GoalRequest = require("../models/goalRequests");
 const { checkBody } = require("../modules/checkBody");
 
 // ********** GET ALL HIRE REQUESTS ********** !!! EN COURS !!!
-router.get(
-  ("/",
-  (req, res) => {
-    HireRequest.find()
-      .populate("department")
-      .populate("job")
-      .populate("internalCompany")
-      .populate("role")
-      .populate("user")
-      .then((allHireRequests) => {
-        if (allHireRequests) {
-          res.json({ result: true, allHireRequests: allHireRequests });
-        } else {
-          res.json({ result: false, error: "No hire request found" });
-        }
-      });
-  })
-);
+router.get("/", (req, res) => {
+  HireRequest.find()
+    .populate("goalRequest")
+    .populate("job")
+    .populate("classification")
+    .populate("department")
+    .populate("contractType")
+    .populate("contractReason")
+    .populate("user")
+    .then((allHireRequests) => {
+      if (allHireRequests) {
+        res.json({ result: true, allHireRequests: allHireRequests });
+      } else {
+        res.json({ result: false, error: "No hire request found" });
+      }
+    });
+});
 
 // ********** ADD HIRE REQUEST ********** !!!EN COURS!!!
 router.post("/", async (req, res) => {
@@ -62,7 +61,6 @@ router.post("/", async (req, res) => {
     lastnameManager,
     department,
     contractTypes,
-    dateHireRequest,
     dpRequestStatus,
     drhRequestStatus,
     dafRequestStatus,
@@ -100,7 +98,7 @@ router.post("/", async (req, res) => {
     lastnameManager,
     department,
     contractTypes,
-    dateHireRequest,
+    dateHireRequest: Date.now(),
     dpRequestStatus,
     drhRequestStatus,
     dafRequestStatus,
