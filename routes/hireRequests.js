@@ -34,12 +34,24 @@ router.get(
 );
 
 // ********** ADD HIRE REQUEST ********** !!!EN COURS!!!
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   // AJOUTER LE CHECKBODY
+
+  //INCREMENTATION DU numRequest
+  const lastHireRequest = await HireRequest.findOne(
+    {},
+    {},
+    { sort: { numRequest: -1 } }
+  );
+  let newNumRequest;
+  if (lastHireRequest) {
+    newNumRequest = lastHireRequest.numRequest + 1;
+  } else {
+    newNumRequest = 1;
+  }
 
   // DEFINITION DE L'OBJET RECU PAR LE FRONT
   const {
-    numRequest,
     goalRequest,
     nameReplacedPerson,
     lastnameReplacedPerson,
@@ -77,7 +89,7 @@ router.post("/", (req, res) => {
     user,
   } = req.body;
   const newHireRequest = new HireRequest({
-    numRequest,
+    numRequest: newNumRequest,
     goalRequest,
     nameReplacedPerson,
     lastnameReplacedPerson,
@@ -115,13 +127,11 @@ router.post("/", (req, res) => {
     user,
   });
 
-  // SAUVEGARDE DE LA DEMANDE
-  newHireRequest.save().then((data) => {
-    if (data) {
-      console.log(data);
-      res.json({ result: true, data: data });
-    }
-  });
+  // // SAUVEGARDE DE LA DEMANDE
+
+  const savedHireRequest = await newHireRequest.save();
+  console.log(savedHireRequest);
+  res.json({ result: true, data: savedHireRequest });
 });
 
 module.exports = router;
