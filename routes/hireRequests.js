@@ -135,4 +135,24 @@ router.post("/", async (req, res) => {
   res.json({ result: true, data: savedHireRequest });
 });
 
+// RECUPÉRATION DE LA DEMANDE SPÉCIFIQUE
+router.get("/:id", (req, res) => {
+  const hireRequestId = req.params.id;
+  HireRequest.findById(hireRequestId)
+    .populate("goalRequest")
+    .populate("job")
+    .populate("classification")
+    .populate("department")
+    .populate("contractType")
+    .populate("contractReason")
+    .populate("user")
+    .then((hireRequest) => {
+      if (hireRequest) {
+        res.json({ result: true, hireRequest: hireRequest });
+      } else {
+        res.json({ result: false, error: "Hire request not found" });
+      }
+    });
+});
+
 module.exports = router;
