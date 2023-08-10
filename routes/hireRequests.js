@@ -65,10 +65,6 @@ router.post("/", async (req, res) => {
     lastnameManager,
     department,
     contractTypes,
-    dpRequestStatus,
-    drhRequestStatus,
-    dafRequestStatus,
-    pdgRequestStatus,
     globalRequestStatus,
     dpComment,
     drhComment,
@@ -153,6 +149,20 @@ router.get("/:id", (req, res) => {
         res.json({ result: false, error: "Hire request not found" });
       }
     });
+});
+
+// MAJ DU comment ET DU requestStatus SELON LE JOB DU USER ET D'UNE DEMANDE SPECIFIQUE
+router.put("/:id", async (req, res) => {
+  const hireRequestId = req.params.id;
+  const updatedData = req.body;
+
+  const updatedHireRequest = await HireRequest.findByIdAndUpdate(
+    hireRequestId, //id «Object|Number|String» valeur de l'_id a aller chercher
+    updatedData, //[update] «Object» les données a remplacer
+    { new: true } //[options.new=false] «Boolean» si true, return les données dans l'Object de update plutot que l'original
+  );
+
+  res.json({ result: true, updatedHireRequest });
 });
 
 module.exports = router;
